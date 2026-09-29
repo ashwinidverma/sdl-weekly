@@ -1,0 +1,177 @@
+# ─────────────────────────────────────────────────────────────
+#  SDL Weekly — configuration
+#  This is the only file you normally need to edit.
+# ─────────────────────────────────────────────────────────────
+
+newsletter_name: "All about SDL in this week"
+editor_name: "Your Name"                      # shown in the footer
+contact_email: "you@example.com"              # sent to arXiv/OpenAlex as a polite contact (never published)
+linkedin_newsletter_url: ""                   # paste your LinkedIn newsletter link once it exists
+
+lookback_days: 7          # how many days back each weekly run looks
+max_per_section: 20       # max candidates per section in the draft (you curate down from these)
+
+# Phrases used to SEARCH the sources. Keep them specific.
+search_terms:
+  - "self-driving lab"
+  - "self-driving laboratory"
+  - "self-driving laboratories"
+  - "autonomous laboratory"
+  - "autonomous experimentation"
+  - "closed-loop experimentation"
+  - "closed-loop optimization"
+  - "robotic chemist"
+  - "AI chemist"
+  - "materials acceleration platform"
+  - "laboratory automation"
+  - "automated synthesis"
+  - "high-throughput experimentation"
+
+# An item from arXiv / ChemRxiv / OpenAlex must contain at least one of these
+# (in its title or abstract) to be kept. This removes off-topic search hits.
+must_match_any:
+  - "self-driving lab"
+  - "self-driving laborator"
+  - "autonomous lab"
+  - "autonomous experiment"
+  - "autonomous synthesis"
+  - "autonomous discovery"
+  - "closed-loop"
+  - "closed loop"
+  - "robotic"
+  - "robot"
+  - "ai chemist"
+  - "acceleration platform"
+  - "laboratory automation"
+  - "lab automation"
+  - "automated synthesis"
+  - "automated experiment"
+  - "high-throughput experiment"
+  - "bayesian optimization"
+  - "active learning"
+
+# Items containing any of these are dropped (self-driving CARS, etc.).
+exclude_keywords:
+  - "autonomous driving"
+  - "self-driving car"
+  - "self-driving vehicle"
+  - "autonomous vehicle"
+  - "traffic"
+  - "pedestrian"
+
+# Your chemistry + materials focus: items mentioning these rank higher.
+domain_keywords:
+  - "chemistry"
+  - "chemical"
+  - "materials"
+  - "catalyst"
+  - "catalysis"
+  - "synthesis"
+  - "polymer"
+  - "perovskite"
+  - "metal-organic framework"
+  - "MOF"
+  - "nanoparticle"
+  - "battery"
+  - "electrolyte"
+  - "thin film"
+  - "crystal"
+  - "alloy"
+  - "reaction"
+  - "flow chemistry"
+
+# Journals you consider high priority (rank higher when matched).
+priority_journals:
+  - "Digital Discovery"
+  - "Nature"
+  - "Science"
+  - "Nature Synthesis"
+  - "Nature Chemistry"
+  - "Nature Communications"
+  - "Journal of the American Chemical Society"
+  - "Chemical Science"
+  - "Matter"
+  - "Advanced Materials"
+  - "npj Computational Materials"
+  - "HardwareX"
+
+# How items are sorted into newsletter sections.
+# Order of checking: agents → hardware → software → (otherwise) papers.
+# A section wins if a keyword is in the TITLE, or 2+ different keywords are in the abstract.
+section_keywords:
+  agents:
+    - "agent"
+    - "agentic"
+    - "multi-agent"
+    - "LLM"
+    - "large language model"
+    - "language model"
+    - "GPT"
+    - "copilot"
+    - "foundation model"
+  hardware:
+    - "robot"
+    - "robotic"
+    - "robotic arm"
+    - "hardware"
+    - "liquid handler"
+    - "liquid handling"
+    - "flow reactor"
+    - "microfluidic"
+    - "gripper"
+    - "3D-printed"
+    - "open-source hardware"
+    - "instrument"
+    - "workcell"
+    - "mobile robot"
+  software:
+    - "software"
+    - "framework"
+    - "Python package"
+    - "Python library"
+    - "open-source code"
+    - "orchestration"
+    - "scheduler"
+    - "workflow manager"
+    - "digital twin"
+    - "API"
+    - "benchmark"
+
+sources:
+  arxiv:
+    enabled: true
+    max_results: 200
+    categories:
+      - "cond-mat.mtrl-sci"
+      - "physics.chem-ph"
+      - "cs.AI"
+      - "cs.LG"
+      - "cs.RO"
+  chemrxiv:
+    enabled: true
+  openalex:
+    enabled: true
+  github:
+    enabled: true
+    # New repositories created during the week that match these searches.
+    repo_queries:
+      - "topic:self-driving-lab"
+      - "topic:self-driving-laboratory"
+      - "topic:laboratory-automation"
+      - "topic:lab-automation"
+      - "\"self-driving lab\""
+      - "\"autonomous experimentation\""
+    # Existing projects: any new release this week is listed.
+    # Add/remove freely. Wrong names are skipped silently.
+    watch_software:
+      - "pytorch/botorch"
+      - "facebook/Ax"
+      - "bluesky/bluesky"
+      - "aspuru-guzik-group/olympus"
+      - "sgbaird/honegumi"
+      - "ur-whitelab/chemcrow-public"
+      - "AD-SDL/wei"
+    watch_hardware:
+      - "Opentrons/opentrons"
+      - "PyLabRobot/pylabrobot"
+      - "AccelerationConsortium/ac-training-lab"
