@@ -4,8 +4,8 @@
 # ─────────────────────────────────────────────────────────────
 
 newsletter_name: "All about SDL in this week"
-editor_name: "Your Name"                      # shown in the footer
-contact_email: "you@example.com"              # sent to arXiv/OpenAlex as a polite contact (never published)
+editor_name: "Ashwini Verma"                      # shown in the footer
+contact_email: "ashwini.dverma@gmail.com"              # sent to arXiv/OpenAlex as a polite contact (never published)
 linkedin_newsletter_url: ""                   # paste your LinkedIn newsletter link once it exists
 
 lookback_days: 7          # how many days back each weekly run looks
