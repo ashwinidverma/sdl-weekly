@@ -1,0 +1,61 @@
+name: 2 · Publish approved issue
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  publish:
+    if: github.event.label.name == 'approved' && startsWith(github.event.issue.title, 'SDL Weekly')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Build newsletter from the curated issue
+        run: python scripts/publish.py
+
+      - name: Save to the repo
+        run: |
+          git config user.name  "sdl-weekly-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add issues/
+          git commit -m "Publish $(cat out/week.txt)" || echo "Nothing to commit"
+          git pull --rebase
+          git push
+
+      - name: Close the draft and thank submitters
+        run: |
+          WEEK=$(cat out/week.txt)
+          BASE="https://github.com/${{ github.repository }}/blob/${{ github.event.repository.default_branch }}"
+          URL="$BASE/$(cat out/published_path.txt)"
+          TEASER="$BASE/issues/$WEEK-teaser.txt"
+          gh issue comment "$ISSUE" --body "Published: [$WEEK newsletter]($URL) · [LinkedIn teaser post]($TEASER). Next: open the newsletter link, copy the rendered page, and paste it into your LinkedIn newsletter editor."
+          gh issue edit "$ISSUE" --add-label published --remove-label draft
+          gh issue close "$ISSUE"
+          while read -r n; do
+            [ -z "$n" ] && continue
+            gh issue comment "$n" --body "Thank you! This was featured in [SDL Weekly $WEEK]($URL)."
+            gh issue close "$n"
+          done < out/submissions.txt
+
+      - name: Explain what went wrong
+        if: failure()
+        run: |
+          MSG="Publishing failed. Check the Actions log for details."
+          [ -f out/error.txt ] && MSG="$(cat out/error.txt)"
+          gh issue comment "$ISSUE" --body "$MSG"
+          gh issue edit "$ISSUE" --remove-label approved
